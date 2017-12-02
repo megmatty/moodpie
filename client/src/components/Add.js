@@ -1,7 +1,7 @@
 import React from 'react';
 import {Field, reduxForm, focus} from 'redux-form';
 import {connect} from 'react-redux';
-import {Redirect} from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { add } from '../actions/auth';
 import { testFetch } from '../actions/protected-data';
 import { sendEntry } from '../actions/addNew';
@@ -48,6 +48,7 @@ export class Add extends React.Component {
                 <br />
                 
                 <p>Welcome back, {this.props.email}</p>
+                <Link to="/dashboard">Need Redirect to Dashboard</Link>
 
                 <p>Mood</p>
                 <label>

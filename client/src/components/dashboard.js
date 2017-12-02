@@ -2,13 +2,17 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
 import {fetchProtectedData} from '../actions/protected-data';
+import {findAll} from '../actions/findAll';
+import Log from './Log';
+import SimplePieChart from './SimplePieChart';
+import SimpleBarChart from './SimpleBarChart';
 
 export class Dashboard extends React.Component {
     componentDidMount() {
         if (!this.props.loggedIn) {
             return;
         }
-        this.props.dispatch(fetchProtectedData());
+        this.props.dispatch(findAll());
     }
 
     render() {
@@ -23,11 +27,12 @@ export class Dashboard extends React.Component {
                 <div className="dashboard-username">
                     Email: {this.props.email}
                 </div>
-                <div className="dashboard-protected-data">
-                    Protected data: {this.props.protectedData}
-                </div>
                 <br />
                 <Link to="/add">Add Entry</Link>
+                <br />
+                <br />
+                <SimpleBarChart bar={this.props.barData}/>
+                <Log data={this.props.entries}/>
             </div>
         );
     }
@@ -39,7 +44,10 @@ const mapStateToProps = state => {
     return {
         loggedIn: currentUser !== null,
         email: currentUser ? state.auth.currentUser.email : '',
-        protectedData: state.protectedData.data
+        protectedData: state.protectedData.data,
+        entries: state.findAll.data,
+        pieData: state.findAll.pieData,
+        barData: state.findAll.barData
     };
 };
 
