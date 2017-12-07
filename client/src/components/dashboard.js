@@ -1,11 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
-import {fetchProtectedData} from '../actions/protected-data';
-import {findAll} from '../actions/findAll';
+// import {fetchProtectedData} from '../actions/protected-data';
+import {findAll, refreshData} from '../actions/findAll';
 import Log from './Log';
 import SimplePieChart from './SimplePieChart';
 import SimpleBarChart from './SimpleBarChart';
+
+//map dispatch to props
 
 export class Dashboard extends React.Component {
     componentDidMount() {
@@ -13,6 +15,10 @@ export class Dashboard extends React.Component {
             return;
         }
         this.props.dispatch(findAll());
+    }
+
+    componentWillMount() {
+        this.props.dispatch(refreshData());
     }
 
     render() {
@@ -31,6 +37,7 @@ export class Dashboard extends React.Component {
                 <Link to="/add">Add Entry</Link>
                 <br />
                 <br />
+                <SimplePieChart pie={this.props.pieData}/>
                 <SimpleBarChart bar={this.props.barData}/>
                 <Log data={this.props.entries}/>
             </div>
@@ -40,7 +47,6 @@ export class Dashboard extends React.Component {
 
 const mapStateToProps = state => {
     const {currentUser} = state.auth;
-    console.log(currentUser);
     return {
         loggedIn: currentUser !== null,
         email: currentUser ? state.auth.currentUser.email : '',

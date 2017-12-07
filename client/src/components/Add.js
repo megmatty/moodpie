@@ -2,8 +2,8 @@ import React from 'react';
 import {Field, reduxForm, focus} from 'redux-form';
 import {connect} from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
-import { add } from '../actions/auth';
-import { testFetch } from '../actions/protected-data';
+// import { add } from '../actions/auth';
+// import { testFetch } from '../actions/protected-data';
 import { sendEntry } from '../actions/addNew';
 // import {required, nonEmpty} from '../validators';
 

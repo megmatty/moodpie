@@ -31,6 +31,11 @@ class SimplePieChart extends Component {
 	}
 	
 	render () {
+		let cells;
+			if (this.props.pie) {
+				cells = this.props.pie.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]}/>)
+			}
+
   	return (
 			<PieChart width={400} height={400} className="chart" onMouseEnter={this.onPieEnter} pie={this.props.pie}>
 				<Pie
@@ -44,9 +49,7 @@ class SimplePieChart extends Component {
 				  fill="#8884d8"
 				  dataKey="value"
 				>
-				{
-				this.props.pie.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]}/>)
-			  }
+				{cells}
 				</Pie>
 		  </PieChart>
     );

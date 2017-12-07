@@ -1,6 +1,11 @@
 import {API_BASE_URL} from '../config';
 import {normalizeResponseErrors} from './utils';
 
+import io from 'socket.io-client'; 
+console.log(io);
+
+const socket = io.connect(API_BASE_URL);
+
 export const FIND_ALL_DATA_SUCCESS = 'FIND_ALL_DATA_SUCCESS';
 export const findAllSuccess = data => { 
   console.log(data);
@@ -36,6 +41,21 @@ export const findAll = (entries) => (dispatch, getState) => {
         });
 };
 
+
+export const refreshData = () => {
+  return (dispatch) => {
+    console.log('mango');
+    socket.removeListener('new entry');
+    socket.on('new entry', function(response) {
+      console.log('peach');
+      // console.log(response);
+      dispatch({
+        type: 'REALTIME_REFRESH',
+        payload: [response]
+      })
+    });
+  }
+}
 
 // export const findAll = (entries) => {
 //    console.log('banana');

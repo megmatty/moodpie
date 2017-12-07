@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const passport = require('passport');
 const jsonParser = bodyParser.json();
+const socketEvents = require('./socketEvents'); 
 
 const {router: Router, basicStrategy, jwtStrategy} = require('./controllers/router');
 
@@ -18,15 +19,22 @@ const app = express();
 app.use(morgan('common'));
 
 // CORS
-app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
-    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
-    if (req.method === 'OPTIONS') {
-        return res.send(204);
-    }
-    next();
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Credentials');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
 });
+// app.use(function(req, res, next) {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+//     res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
+//     if (req.method === 'OPTIONS') {
+//         return res.send(204);
+//     }
+//     next();
+// });
 
 app.use(passport.initialize());
 passport.use(basicStrategy);
@@ -72,6 +80,8 @@ function runServer() {
                     mongoose.disconnect();
                     reject(err);
                 });
+                const io = require('socket.io')(server);
+                socketEvents(io);
         });
     });
 }
@@ -90,8 +100,16 @@ function closeServer() {
     });
 }
 
+
+// socket.io ===================================================================
+
+// const io = require('socket.io').listen(server);
+
+
+
 if (require.main === module) {
     runServer().catch(err => console.error(err));
 }
+
 
 module.exports = {app, runServer, closeServer};
