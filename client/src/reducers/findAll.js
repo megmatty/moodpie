@@ -15,7 +15,8 @@ export default function reducer(state = initialState, action) {
                 data: action.data,
                 error: null,
                 pieData: action.moodCount,
-                barData: action.barData
+                barData: action.barData,
+                lineData: action.lineData
             });  
         case 'REALTIME_REFRESH':
           console.log(action);
@@ -28,6 +29,8 @@ export default function reducer(state = initialState, action) {
             pieData: pieData,
             barData: barData
           }
+        default:
+            return state
     }
 
 
@@ -40,7 +43,6 @@ export default function reducer(state = initialState, action) {
     //         barData: action.barData
     //     });
     // } 
-    return state;
 }
 
 export function countKeys(yourArray, key, array=[]) {

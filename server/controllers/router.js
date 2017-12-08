@@ -28,4 +28,7 @@ router.post('/add', [passport.authenticate('jwt', {session: false}), jsonParser]
 // Dashboard
  router.get('/dashboard', [passport.authenticate('jwt', {session: false}), jsonParser],EntryController.findAllEntries);
 
+//Profile
+  router.get('/profile', [passport.authenticate('jwt', {session: false}), jsonParser],EntryController.findUserEntries);
+
 module.exports = {router, basicStrategy, jwtStrategy};

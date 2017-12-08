@@ -2,18 +2,18 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
 // import {fetchProtectedData} from '../actions/protected-data';
-import {findAll, refreshData} from '../actions/findAll';
+import {findUserEntries, refreshData} from '../actions/findAll';
 import Log from './Log';
 import SimplePieChart from './SimplePieChart';
 import SimpleBarChart from './SimpleBarChart';
-import SimpleLineChart from './SimpleLineChart';
 
-export class Dashboard extends React.Component {
+
+export class Profile extends React.Component {
     componentDidMount() {
         if (!this.props.loggedIn) {
             return;
         }
-        this.props.findAll();
+        this.props.findUserEntries();
     }
 
     componentWillMount() {
@@ -28,11 +28,11 @@ export class Dashboard extends React.Component {
 
         return (
             <div className="dashboard">
+                <h1>Profile</h1>
                 <br />
                 <br />
                 <SimplePieChart pie={this.props.pieData}/>
                 <SimpleBarChart bar={this.props.barData}/>
-                <SimpleLineChart line={this.props.lineData}/>
                 <Log data={this.props.entries}/>
             </div>
         );
@@ -43,17 +43,18 @@ const mapStateToProps = state => {
     const {currentUser} = state.auth;
     return {
         loggedIn: currentUser !== null,
+        email: currentUser ? state.auth.currentUser.email : '',
+        protectedData: state.protectedData.data,
         entries: state.findAll.data,
         pieData: state.findAll.pieData,
-        barData: state.findAll.barData,
-        lineData: state.findAll.lineData
+        barData: state.findAll.barData
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    findAll: () => {
-      dispatch(findAll())
+    findUserEntries: () => {
+      dispatch(findUserEntries())
     },
     refreshData: () => {
       dispatch(refreshData())
@@ -61,4 +62,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

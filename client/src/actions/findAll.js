@@ -11,11 +11,19 @@ export const findAllSuccess = data => {
   console.log(data);
   let moodCount = countKeys(data, "mood");
   let barData = countKeys(data, "activity");
+  let lineData = [
+      {name: 'Dec 7', uv: 4000},
+      {name: 'Dec 8', uv: 3000},
+      {name: 'Dec 9', uv: 2000},
+      {name: 'Dec 10', uv: 2780}
+  ];
+  // lineData = barData;
   return {
     type: FIND_ALL_DATA_SUCCESS,
     data,
     moodCount,
-    barData
+    barData,
+    lineData
 } };
 
 // export const FETCH_PROTECTED_DATA_ERROR = 'FETCH_PROTECTED_DATA_ERROR';
@@ -57,28 +65,29 @@ export const refreshData = () => {
   }
 }
 
-// export const findAll = (entries) => {
-//    console.log('banana');
-//   return (dispatch) => {
-//     axios.get(`${API_URL}/dashboard`)
-//       .then((response) => {
-//         console.log(response);
+export const findUserEntries = () => (dispatch, getState) => {
+    const authToken = getState().auth.authToken;
+    return fetch(`${API_BASE_URL}/profile`, {
+        method: 'GET',
+        headers: {
+            // Provide our auth token as credentials
+            Authorization: `Bearer ${authToken}`
+        }
+    })
+        .then(res => normalizeResponseErrors(res))
+        .then(res => res.json())
+        .then(({data}) => dispatch(findAllSuccess(data)))
+        .catch(err => {
+            // dispatch(findAllError(err));
+        });
+};
 
-//         let moodCount = countKeys(response.data.entries, "mood");
-//         let barData = countKeys(response.data.entries, "activity");
-//         console.log(moodCount);
-//           dispatch({
-//             type: 'FIND_ALL',
-//             payload: response.data,
-//             moodCount: moodCount,
-//             barData: barData
-//           })
-//       })
-//     .catch(function (error) {
-//       console.log(error);
-//     });
-//   }
-// }
+
+
+
+
+
+
 export function countKeys(yourArray, key, array=[]) {
   // let array = [];
   console.log(yourArray);

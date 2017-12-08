@@ -131,6 +131,7 @@ exports.addEntry = function(req, res, next) {
     console.log('sweet potato');
     let entry = new Entry(req.body);
     entry['userId'] = req.user.id;
+    entry['date'] = Date.now();
     entry.save();
     return res.json({
        data: 'rosebud'

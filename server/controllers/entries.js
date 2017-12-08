@@ -14,3 +14,17 @@ exports.findAllEntries = function(req, res, next) {
 	})
 }
 
+//Find a Single user's Entries
+exports.findUserEntries = function(req, res, next) {
+	console.log('peaches');
+	console.log(req.user.id);
+	Entry.find({ userId: req.user.id })
+		.exec((err, data) => {
+	    if (err) {
+	      res.send({ error: err });
+	      return next(err);
+	    }
+	    return res.status(200).json({ data: data });
+	})
+}
+
