@@ -7,6 +7,8 @@ const passport = require('passport');
 const jsonParser = bodyParser.json();
 const socketEvents = require('./socketEvents'); 
 
+require('./variables.js');
+
 const {router: Router, basicStrategy, jwtStrategy} = require('./controllers/router');
 
 mongoose.Promise = global.Promise;

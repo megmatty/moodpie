@@ -5,6 +5,7 @@ import {Provider} from 'react-redux';
 import App from './components/app';
 import store from './store';
 import './index.css';
+import './emoji.css';
 
 ReactDOM.render(
     <Provider store={store}>

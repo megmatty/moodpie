@@ -6,6 +6,8 @@ import { Redirect, Link } from 'react-router-dom';
 // import { testFetch } from '../actions/protected-data';
 import { sendEntry } from '../actions/addNew';
 // import {required, nonEmpty} from '../validators';
+import Emojify from 'react-emojione';
+import {emojify} from 'react-emojione';
 
 export class Add extends React.Component {
 
@@ -38,6 +40,11 @@ export class Add extends React.Component {
             return <Redirect to="/" />;
         }
 
+        const options = {
+            // this click handler will be set on every emoji
+            onClick: event => {console.log(event.target); event.target.title = ':wink:'}
+        };
+
         return (
             <form
                 className="login-form"
@@ -49,11 +56,11 @@ export class Add extends React.Component {
                 
                 <p>Welcome back, {this.props.email}</p>
                 <Link to="/dashboard">Need Redirect to Dashboard</Link>
-
+                
                 <p>Mood</p>
                 <label>
                     <Field name="mood" component="input" type="radio" value="happy" />
-                    {' '}
+                    <span className='emoji'> {emojify(':grinning:', options)} </span>
                     happy
                 </label>
                   <label>

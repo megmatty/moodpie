@@ -3,3 +3,12 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.emoji {
+	display: inline-block;
+	transition: all .5s ease;
+}
+
+.emoji:hover {
+	transform: rotate(360deg) scale(1.5);
+}

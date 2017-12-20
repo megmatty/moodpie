@@ -32,7 +32,7 @@ export class SimpleLineChart extends Component {
 				<input type="radio" name="time" onChange={this.handleClick.bind(this)} value="s"/><label>Seconds</label>
 				<br />
 				<input type="checkbox" name="mood" onChange={this.switchMood.bind(this)} value="Happy"/><label>Happy</label>
-				<input type="checkbox" name="mood" onChange={this.switchMood.bind(this)} value="Nevous"/><label>Nevous</label>
+				<input type="checkbox" name="mood" onChange={this.switchMood.bind(this)} value="Nervous"/><label>Nervous</label>
 
     	</div>
     );
