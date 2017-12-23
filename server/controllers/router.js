@@ -12,6 +12,7 @@ const jsonParser = bodyParser.json();
 const EntryController = require('./entries');
 const UsersController = require('./users');
 const AuthController = require('./auth');
+const VariablesController = require('./variables');
 
 //Register User
 router.post('/register', jsonParser, UsersController.register);
@@ -30,5 +31,14 @@ router.post('/add', [passport.authenticate('jwt', {session: false}), jsonParser]
 
 //Profile
   router.get('/profile', [passport.authenticate('jwt', {session: false}), jsonParser],EntryController.findUserEntries);
+
+//Get Moods
+	router.get('/moods', VariablesController.getMoods);
+
+//Get Activities
+	router.get('/activities', VariablesController.getActivities);
+
+
+
 
 module.exports = {router, basicStrategy, jwtStrategy};

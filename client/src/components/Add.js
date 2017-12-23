@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 // import { add } from '../actions/auth';
 // import { testFetch } from '../actions/protected-data';
-import { sendEntry } from '../actions/addNew';
+import { sendEntry, getMoods, getActivities } from '../actions/addNew';
 // import {required, nonEmpty} from '../validators';
 import Emojify from 'react-emojione';
 import {emojify} from 'react-emojione';
@@ -13,6 +13,8 @@ export class Add extends React.Component {
 
     componentDidMount() {
        // this.props.dispatch(testFetch());
+       this.props.getMoods();
+       this.props.getActivities();
     }
 
 
@@ -58,28 +60,22 @@ export class Add extends React.Component {
                 <Link to="/dashboard">Need Redirect to Dashboard</Link>
                 
                 <p>Mood</p>
-                <label>
-                    <Field name="mood" component="input" type="radio" value="happy" />
-                    <span className='emoji'> {emojify(':grinning:', options)} </span>
-                    happy
-                </label>
-                  <label>
-                    <Field name="mood" component="input" type="radio" value="nervous" />
-                    {' '}
-                    nervous
-                  </label>
+                {this.props.moodList.map((item, i) => (
+                  <label key={i}>
+                        <Field name="mood" component="input" type="radio" value={item.mood} />
+                        <span className='emoji'> {emojify(item.emoji, options)} </span>
+                    {item.mood}
+                    </label>  
+                ))}
 
-                  <p>Activity</p>
-                <label>
-                    <Field name="activity" component="input" type="radio" value="work" />
-                    {' '}
-                    work
-                </label>
-                  <label>
-                    <Field name="activity" component="input" type="radio" value="video games" />
-                    {' '}
-                    video games
-                  </label>
+                <p>Activity</p>
+                {this.props.activityList.map((item, i) => (
+                  <label key={i}>
+                        <Field name="activity" component="input" type="radio" value={item.activity} />
+                        <span className='emoji'> {emojify(item.emoji, options)} </span>
+                    {item.activity}
+                    </label>  
+                ))}
                   <br />
                   <br />
                   <label htmlFor="journal">Journal</label>
@@ -96,14 +92,30 @@ export class Add extends React.Component {
 
 const mapStateToProps = state => {
     const {currentUser} = state.auth;
+    console.log(state);
     return {
         loggedIn: currentUser !== null,
-        email: currentUser ? state.auth.currentUser.email : ''
+        email: currentUser ? state.auth.currentUser.email : '',
+        moodList: state.findAll.moodList,
+        activityList: state.findAll.activityList
     };
 };
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getMoods: () => {
+      dispatch(getMoods())
+    },
+    getActivities: () => {
+      dispatch(getActivities())
+    }
+  }
+}
+
+
+
 Add = connect(
-    mapStateToProps
+    mapStateToProps, mapDispatchToProps
     )(Add);
 
 export default reduxForm({

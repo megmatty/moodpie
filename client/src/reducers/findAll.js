@@ -5,6 +5,12 @@ import {
     FIND_ALL_DATA_SUCCESS
 } from '../actions/findAll';
 
+import {
+    GET_MOOD_SUCCESS,
+    GET_ACTIVITY_SUCCESS
+} from '../actions/addNew';
+
+
 const initialState = {
     data: '',
     error: null
@@ -43,6 +49,17 @@ export default function reducer(state = initialState, action) {
           return {
             ...state,
             total: total
+          }
+        case 'GET_MOOD_SUCCESS':
+          return {
+            ...state,
+            moodList: action.data.moodList
+          }
+        case 'GET_ACTIVITY_SUCCESS':
+          console.log(action);
+          return {
+            ...state,
+            activityList: action.data.activityList
           }
         default:
             return state

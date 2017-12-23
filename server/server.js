@@ -7,7 +7,7 @@ const passport = require('passport');
 const jsonParser = bodyParser.json();
 const socketEvents = require('./socketEvents'); 
 
-require('./variables.js');
+// require('./variables.js');
 
 const {router: Router, basicStrategy, jwtStrategy} = require('./controllers/router');
 
